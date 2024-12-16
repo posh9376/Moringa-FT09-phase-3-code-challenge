@@ -22,6 +22,12 @@ class Author:
     def name(self):
         return self._name
 
+    @name.setter
+    def name(self, value):
+        if not isinstance(value, str) or len(value) == 0:
+            raise ValueError("Name must be a non-empty string.")
+        self._name = value
+
     def articles(self):
         connection = get_db_connection()
         cursor = connection.cursor()
