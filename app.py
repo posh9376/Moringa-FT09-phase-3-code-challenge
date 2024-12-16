@@ -56,11 +56,11 @@ def main():
     # Display results
     print("\nMagazines:")
     for magazine in magazines:
-        print(Magazine(magazine["id"], magazine["name"], magazine["category"]))
+        print(Magazine( magazine["name"], magazine["category"]))
 
     print("\nAuthors:")
     for author in authors:
-        print(Author(author["id"], author["name"]))
+        print(Author(author["name"]))
 
     print("\nArticles:")
     for article in articles:
