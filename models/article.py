@@ -1,8 +1,7 @@
 from database.connection import get_db_connection
 
 class Article:
-    def __init__(self, id, title, content, author_id, magazine_id):
-        
+    def __init__(self, id, title, content, author_id, magazine_id):    
         self.id=id
         self._title = title
         self._content = content
@@ -22,8 +21,15 @@ class Article:
         return self._title
     @title.setter
     def title(self, value):
-        if not isinstance(value, str) or not (5 <= len(value) <= 50):
-            raise ValueError("Title must be a string between 5 and 50 characters.")
+        if hasattr(self, '_title'):
+            raise AttributeError("Title cannot be changed after the article is instantiated") 
+        # Ensure title is a string and meets length requirements
+        if not isinstance(value, str):
+            raise TypeError("title must be a string")
+        if len(value) < 5 or len(value) > 50:
+            raise ValueError("title must be between 5 and 50 characters")
+
+        # Set the title
         self._title = value
 
     @property

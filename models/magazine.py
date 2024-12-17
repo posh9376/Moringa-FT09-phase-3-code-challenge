@@ -1,9 +1,8 @@
 from database.connection import get_db_connection
 
 class Magazine:
-    def __init__(self, name, category):
-       
-
+    def __init__(self,id, name, category ='general'):
+        self.id = id
         self._name = name
         self._category = category
 
@@ -18,15 +17,25 @@ class Magazine:
     def id(self):
         return self._id
 
+    @id.setter
+    def id(self, value):
+        if not isinstance(value, int):
+            raise ValueError("ID must be an integer.")
+        self._id = value
+
     @property
     def name(self):
         return self._name
 
     @name.setter
     def name(self, value):
-        if not isinstance(value, str) or not (2 <= len(value) <= 16):
-            raise ValueError("Name must be a string between 2 and 16 characters.")
+        if not isinstance(value, str):
+            raise TypeError("name must be a string")
         self._name = value
+        if len(value)< 2 or len(value) > 16: 
+            raise ValueError("name must be between 2 and 16 characters")
+        self._name = value
+
         connection = get_db_connection()
         cursor = connection.cursor()
         cursor.execute("UPDATE magazines SET name = ? WHERE id = ?;", (self._name, self._id))
@@ -39,8 +48,11 @@ class Magazine:
 
     @category.setter
     def category(self, value):
-        if not isinstance(value, str) or len(value) == 0:
-            raise ValueError("Category must be a non-empty string.")
+        if not isinstance(value, str):
+            raise TypeError("category must be a string")
+        self._category = value
+        if len(value) <= 0:
+            raise ValueError("category must be longer than 0 characters")
         self._category = value
         connection = get_db_connection()
         cursor = connection.cursor()
